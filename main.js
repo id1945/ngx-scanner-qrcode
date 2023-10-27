@@ -108,13 +108,13 @@ var AppComponent = /** @class */ (function () {
     };
     AppComponent.prototype.onSelects = function (files) {
         var _this = this;
-        this.qrcode.loadFiles(files).subscribe(function (res) {
+        this.qrcode.loadFiles(files, 30, 30).subscribe(function (res) {
             _this.qrCodeResult = res;
         });
     };
     AppComponent.prototype.onSelects2 = function (files) {
         var _this = this;
-        this.qrcode.loadFilesToScan(files, this.config).subscribe(function (res) {
+        this.qrcode.loadFilesToScan(files, this.config, 30, 30).subscribe(function (res) {
             console.log(res);
             _this.qrCodeResult2 = res;
         });
