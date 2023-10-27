@@ -58708,7 +58708,7 @@ __webpack_require__.r(__webpack_exports__);
 /** @type {?} */
 var WASMPROJECT = "assets/wasm/index.js";
 /** @type {?} */
-var WASMREMOTE = "https://cdn.jsdelivr.net/npm/ngx-scanner-qrcode@1.5.7/wasm/index.js";
+var WASMREMOTE = "https://cdn.jsdelivr.net/npm/ngx-scanner-qrcode@1.6.5/wasm/index.js";
 /** @type {?} */
 var WASMREMOTELATEST = "https://cdn.jsdelivr.net/npm/ngx-scanner-qrcode@latest/wasm/index.js";
 /** @type {?} */
@@ -59353,8 +59353,8 @@ function (theBlob, fileName) {
  * FILES_TO_SCAN
  * @param files
  * @param configs
+ * @param percentage
  * @param quality
- * @param type
  * @param as
  * @returns
  */
@@ -59363,8 +59363,8 @@ function (theBlob, fileName) {
  * FILES_TO_SCAN
  * \@param files
  * \@param configs
+ * \@param percentage
  * \@param quality
- * \@param type
  * \@param as
  * \@return
  * @type {?}
@@ -59372,20 +59372,20 @@ function (theBlob, fileName) {
 var FILES_TO_SCAN = (/**
  * @param {?=} files
  * @param {?=} configs
+ * @param {?=} percentage
  * @param {?=} quality
- * @param {?=} type
  * @param {?=} as
  * @return {?}
  */
-function (files, configs, quality, type, as) {
+function (files, configs, percentage, quality, as) {
     if (files === void 0) { files = []; }
     if (as === void 0) { as = new rxjs__WEBPACK_IMPORTED_MODULE_0__["AsyncSubject"](); }
-    COMPRESS_IMAGE_FILE(files, quality, type).then((/**
+    COMPRESS_IMAGE_FILE(files, percentage, quality).then((/**
      * @param {?} _files
      * @return {?}
      */
     function (_files) {
-        Promise.all(Object.assign([], files).map((/**
+        Promise.all(Object.assign([], _files).map((/**
          * @param {?} m
          * @return {?}
          */
@@ -59440,127 +59440,98 @@ function (ctx, text, x, y) {
 /**
  * COMPRESS_IMAGE_FILE
  * @param files
+ * @param percentage
  * @param quality
- * @param type
  * @returns
  */
 ;
 /**
  * COMPRESS_IMAGE_FILE
  * \@param files
+ * \@param percentage
  * \@param quality
- * \@param type
  * \@return
  * @type {?}
  */
 var COMPRESS_IMAGE_FILE = (/**
  * @param {?} files
+ * @param {?=} percentage
  * @param {?=} quality
- * @param {?=} type
  * @return {?}
  */
-function (files, quality, type) {
-    if (quality === void 0) { quality = 0.5; }
-    if (type === void 0) { type = "image/jpeg"; }
+function (files, percentage, quality) {
+    if (percentage === void 0) { percentage = 100; }
+    if (quality === void 0) { quality = 100; }
     return Object(tslib__WEBPACK_IMPORTED_MODULE_1__["__awaiter"])(_this, void 0, void 0, function () {
-        var compressImage, dataTransfer;
-        var _this = this;
+        var resizedFiles;
         return Object(tslib__WEBPACK_IMPORTED_MODULE_1__["__generator"])(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    // No files selected
-                    if (!files.length || quality === 1)
-                        return [2 /*return*/, files];
-                    compressImage = (/**
-                     * @param {?} file
-                     * @return {?}
-                     */
-                    function (file) { return Object(tslib__WEBPACK_IMPORTED_MODULE_1__["__awaiter"])(_this, void 0, void 0, function () {
-                        var imageBitmap, canvas, ctx, blob;
-                        return Object(tslib__WEBPACK_IMPORTED_MODULE_1__["__generator"])(this, function (_a) {
-                            switch (_a.label) {
-                                case 0:
-                                    // Get as image data
-                                    return [4 /*yield*/, createImageBitmap(file)];
-                                case 1:
-                                    imageBitmap = _a.sent();
-                                    // Draw to canvas
-                                    canvas = document.createElement('canvas');
-                                    canvas.width = imageBitmap.width;
-                                    canvas.height = imageBitmap.height;
-                                    ctx = canvas.getContext('2d');
-                                    ((/** @type {?} */ (ctx))).drawImage(imageBitmap, 0, 0);
-                                    // Turn into Blob
-                                    return [4 /*yield*/, new Promise((/**
-                                         * @param {?} resolve
-                                         * @return {?}
-                                         */
-                                        function (resolve) {
-                                            return canvas.toBlob(resolve, type, quality);
-                                        }))];
-                                case 2:
-                                    blob = (/** @type {?} */ (_a.sent()));
-                                    // Turn Blob into File
-                                    return [2 /*return*/, new File([blob], file.name, {
-                                            type: blob.type,
-                                        })];
-                            }
-                        });
-                    }); });
-                    // We'll store the files in this data transfer object
-                    dataTransfer = new DataTransfer();
-                    // For every file in the files list
-                    return [4 /*yield*/, ((/**
+            // No files selected
+            if (!files.length || quality === 100)
+                return [2 /*return*/, files];
+            // Have files
+            resizedFiles = [];
+            return [2 /*return*/, new Promise((/**
+                 * @param {?} resolve
+                 * @return {?}
+                 */
+                function (resolve) {
+                    var e_1, _a;
+                    var _loop_3 = function (file) {
+                        /** @type {?} */
+                        var image = (/** @type {?} */ (new Image()));
+                        /** @type {?} */
+                        var reader = new FileReader();
+                        reader.onload = (/**
+                         * @param {?} event
                          * @return {?}
                          */
-                        function () { return Object(tslib__WEBPACK_IMPORTED_MODULE_1__["__awaiter"])(_this, void 0, void 0, function () {
-                            var e_1, _a, files_1, files_1_1, file, compressedFile, e_1_1;
-                            return Object(tslib__WEBPACK_IMPORTED_MODULE_1__["__generator"])(this, function (_b) {
-                                switch (_b.label) {
-                                    case 0:
-                                        _b.trys.push([0, 5, 6, 7]);
-                                        files_1 = Object(tslib__WEBPACK_IMPORTED_MODULE_1__["__values"])(files), files_1_1 = files_1.next();
-                                        _b.label = 1;
-                                    case 1:
-                                        if (!!files_1_1.done) return [3 /*break*/, 4];
-                                        file = files_1_1.value;
-                                        // We don't have to compress files that aren't images
-                                        if (!file.type.startsWith('image')) {
-                                            // Ignore this file, but do add it to our result
-                                            dataTransfer.items.add(file);
-                                            return [3 /*break*/, 3];
-                                        }
-                                        // We compress the file by 50%
-                                        return [4 /*yield*/, compressImage(file)];
-                                    case 2:
-                                        compressedFile = _b.sent();
-                                        // Save back the compressed file instead of the original file
-                                        dataTransfer.items.add(compressedFile);
-                                        _b.label = 3;
-                                    case 3:
-                                        files_1_1 = files_1.next();
-                                        return [3 /*break*/, 1];
-                                    case 4: return [3 /*break*/, 7];
-                                    case 5:
-                                        e_1_1 = _b.sent();
-                                        e_1 = { error: e_1_1 };
-                                        return [3 /*break*/, 7];
-                                    case 6:
-                                        try {
-                                            if (files_1_1 && !files_1_1.done && (_a = files_1.return)) _a.call(files_1);
-                                        }
-                                        finally { if (e_1) throw e_1.error; }
-                                        return [7 /*endfinally*/];
-                                    case 7: return [2 /*return*/];
-                                }
+                        function (event) {
+                            image.onload = (/**
+                             * @return {?}
+                             */
+                            function () {
+                                /** @type {?} */
+                                var canvas = document.createElement('canvas');
+                                /** @type {?} */
+                                var ctx = (/** @type {?} */ (canvas.getContext('2d')));
+                                /** @type {?} */
+                                var newWidth = Math.round(image.width * (percentage / 100));
+                                /** @type {?} */
+                                var newHeight = Math.round(image.height * (percentage / 100));
+                                canvas.width = newWidth;
+                                canvas.height = newHeight;
+                                ctx.drawImage(image, 0, 0, newWidth, newHeight);
+                                canvas.toBlob((/**
+                                 * @param {?} blob
+                                 * @return {?}
+                                 */
+                                function (blob) {
+                                    /** @type {?} */
+                                    var resizedFile = new File([blob], file.name, { type: file.type });
+                                    resizedFiles.push(resizedFile);
+                                    if (files.length === resizedFiles.length) {
+                                        resolve(resizedFiles);
+                                    }
+                                }), file.type, quality / 100);
                             });
-                        }); }))()];
-                case 1:
-                    // For every file in the files list
-                    _a.sent();
-                    // return value new files list
-                    return [2 /*return*/, dataTransfer.files];
-            }
+                            image.src = event.target.result;
+                        });
+                        reader.readAsDataURL(file);
+                    };
+                    try {
+                        for (var files_1 = Object(tslib__WEBPACK_IMPORTED_MODULE_1__["__values"])(files), files_1_1 = files_1.next(); !files_1_1.done; files_1_1 = files_1.next()) {
+                            var file = files_1_1.value;
+                            _loop_3(file);
+                        }
+                    }
+                    catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                    finally {
+                        try {
+                            if (files_1_1 && !files_1_1.done && (_a = files_1.return)) _a.call(files_1);
+                        }
+                        finally { if (e_1) throw e_1.error; }
+                    }
+                }))];
         });
     });
 })
@@ -59677,35 +59648,35 @@ var NgxScannerQrcodeService = /** @class */ (function () {
     /**
      * loadFiles
      * @param files
+     * @param percentage
      * @param quality
-     * @param type
      * @returns
      */
     /**
      * loadFiles
      * @param {?=} files
+     * @param {?=} percentage
      * @param {?=} quality
-     * @param {?=} type
      * @return {?}
      */
     NgxScannerQrcodeService.prototype.loadFiles = /**
      * loadFiles
      * @param {?=} files
+     * @param {?=} percentage
      * @param {?=} quality
-     * @param {?=} type
      * @return {?}
      */
-    function (files, quality, type) {
+    function (files, percentage, quality) {
         var _this = this;
         if (files === void 0) { files = []; }
         /** @type {?} */
         var as = new rxjs__WEBPACK_IMPORTED_MODULE_0__["AsyncSubject"]();
-        COMPRESS_IMAGE_FILE(files, quality, type).then((/**
+        COMPRESS_IMAGE_FILE(files, percentage, quality).then((/**
          * @param {?} _files
          * @return {?}
          */
         function (_files) {
-            Promise.all(Object.assign([], files).map((/**
+            Promise.all(Object.assign([], _files).map((/**
              * @param {?} m
              * @return {?}
              */
@@ -59725,29 +59696,29 @@ var NgxScannerQrcodeService = /** @class */ (function () {
      * loadFilesToScan
      * @param files
      * @param config
+     * @param percentage
      * @param quality
-     * @param type
      * @returns
      */
     /**
      * loadFilesToScan
      * @param {?=} files
      * @param {?=} config
+     * @param {?=} percentage
      * @param {?=} quality
-     * @param {?=} type
      * @return {?}
      */
     NgxScannerQrcodeService.prototype.loadFilesToScan = /**
      * loadFilesToScan
      * @param {?=} files
      * @param {?=} config
+     * @param {?=} percentage
      * @param {?=} quality
-     * @param {?=} type
      * @return {?}
      */
-    function (files, config, quality, type) {
+    function (files, config, percentage, quality) {
         if (files === void 0) { files = []; }
-        return FILES_TO_SCAN(files, config, quality, type);
+        return FILES_TO_SCAN(files, config, percentage, quality);
     };
     /**
      * readAsDataURL
@@ -60113,7 +60084,7 @@ var NgxScannerQrcodeComponent = /** @class */ (function () {
         if (this.isPause) {
             this.video.nativeElement.play();
             this.STATUS.pauseOFF();
-            this.requestAnimationFrame(100);
+            this.requestAnimationFrame();
             AS_COMPLETE(as, true);
         }
         else {
@@ -60407,25 +60378,25 @@ var NgxScannerQrcodeComponent = /** @class */ (function () {
     /**
      * download
      * @param fileName
+     * @param percentage
      * @param quality
-     * @param type
      * @returns
      */
     /**
      * download
      * @param {?=} fileName
+     * @param {?=} percentage
      * @param {?=} quality
-     * @param {?=} type
      * @return {?}
      */
     NgxScannerQrcodeComponent.prototype.download = /**
      * download
      * @param {?=} fileName
+     * @param {?=} percentage
      * @param {?=} quality
-     * @param {?=} type
      * @return {?}
      */
-    function (fileName, quality, type) {
+    function (fileName, percentage, quality) {
         var _this = this;
         if (fileName === void 0) { fileName = "ngx_scanner_qrcode_" + Date.now() + ".png"; }
         /** @type {?} */
@@ -60442,7 +60413,7 @@ var NgxScannerQrcodeComponent = /** @class */ (function () {
                     case 1:
                         blob = _a.sent();
                         file = BLOB_TO_FILE(blob, fileName);
-                        FILES_TO_SCAN([file], this.config, quality, type, as).subscribe((/**
+                        FILES_TO_SCAN([file], this.config, percentage, quality, as).subscribe((/**
                          * @param {?} res
                          * @return {?}
                          */
@@ -60780,7 +60751,7 @@ var NgxScannerQrcodeComponent = /** @class */ (function () {
      */
     function (delay) {
         var _this = this;
-        if (delay === void 0) { delay = 0; }
+        if (delay === void 0) { delay = 100; }
         try {
             clearTimeout(this.rAF_ID);
             this.rAF_ID = setTimeout((/**
