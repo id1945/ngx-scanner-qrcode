@@ -58708,7 +58708,7 @@ __webpack_require__.r(__webpack_exports__);
 /** @type {?} */
 var WASMPROJECT = "assets/wasm/index.js";
 /** @type {?} */
-var WASMREMOTE = "https://cdn.jsdelivr.net/npm/ngx-scanner-qrcode@1.6.5/wasm/index.js";
+var WASMREMOTE = "https://cdn.jsdelivr.net/npm/ngx-scanner-qrcode@1.6.6/wasm/index.js";
 /** @type {?} */
 var WASMREMOTELATEST = "https://cdn.jsdelivr.net/npm/ngx-scanner-qrcode@latest/wasm/index.js";
 /** @type {?} */
@@ -59454,86 +59454,92 @@ function (ctx, text, x, y) {
  * @type {?}
  */
 var COMPRESS_IMAGE_FILE = (/**
- * @param {?} files
+ * @param {?=} files
  * @param {?=} percentage
  * @param {?=} quality
  * @return {?}
  */
 function (files, percentage, quality) {
+    if (files === void 0) { files = []; }
     if (percentage === void 0) { percentage = 100; }
     if (quality === void 0) { quality = 100; }
-    return Object(tslib__WEBPACK_IMPORTED_MODULE_1__["__awaiter"])(_this, void 0, void 0, function () {
-        var resizedFiles;
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_1__["__generator"])(this, function (_a) {
-            // No files selected
-            if (!files.length || quality === 100)
-                return [2 /*return*/, files];
-            // Have files
-            resizedFiles = [];
-            return [2 /*return*/, new Promise((/**
-                 * @param {?} resolve
+    if (files.length && (percentage < 100 || quality < 100)) {
+        // Have files
+        /** @type {?} */
+        var resizedFiles_1 = [];
+        return new Promise((/**
+         * @param {?} resolve
+         * @param {?} reject
+         * @return {?}
+         */
+        function (resolve, reject) {
+            var e_1, _a;
+            var _loop_3 = function (file) {
+                /** @type {?} */
+                var image = (/** @type {?} */ (new Image()));
+                /** @type {?} */
+                var reader = new FileReader();
+                reader.onload = (/**
+                 * @param {?} event
                  * @return {?}
                  */
-                function (resolve) {
-                    var e_1, _a;
-                    var _loop_3 = function (file) {
+                function (event) {
+                    image.onload = (/**
+                     * @return {?}
+                     */
+                    function () {
                         /** @type {?} */
-                        var image = (/** @type {?} */ (new Image()));
+                        var canvas = document.createElement('canvas');
                         /** @type {?} */
-                        var reader = new FileReader();
-                        reader.onload = (/**
-                         * @param {?} event
+                        var ctx = (/** @type {?} */ (canvas.getContext('2d')));
+                        /** @type {?} */
+                        var newWidth = Math.round(image.width * (percentage / 100));
+                        /** @type {?} */
+                        var newHeight = Math.round(image.height * (percentage / 100));
+                        canvas.width = newWidth;
+                        canvas.height = newHeight;
+                        ctx.drawImage(image, 0, 0, newWidth, newHeight);
+                        canvas.toBlob((/**
+                         * @param {?} blob
                          * @return {?}
                          */
-                        function (event) {
-                            image.onload = (/**
-                             * @return {?}
-                             */
-                            function () {
-                                /** @type {?} */
-                                var canvas = document.createElement('canvas');
-                                /** @type {?} */
-                                var ctx = (/** @type {?} */ (canvas.getContext('2d')));
-                                /** @type {?} */
-                                var newWidth = Math.round(image.width * (percentage / 100));
-                                /** @type {?} */
-                                var newHeight = Math.round(image.height * (percentage / 100));
-                                canvas.width = newWidth;
-                                canvas.height = newHeight;
-                                ctx.drawImage(image, 0, 0, newWidth, newHeight);
-                                canvas.toBlob((/**
-                                 * @param {?} blob
-                                 * @return {?}
-                                 */
-                                function (blob) {
-                                    /** @type {?} */
-                                    var resizedFile = new File([blob], file.name, { type: file.type });
-                                    resizedFiles.push(resizedFile);
-                                    if (files.length === resizedFiles.length) {
-                                        resolve(resizedFiles);
-                                    }
-                                }), file.type, quality / 100);
-                            });
-                            image.src = event.target.result;
-                        });
-                        reader.readAsDataURL(file);
-                    };
-                    try {
-                        for (var files_1 = Object(tslib__WEBPACK_IMPORTED_MODULE_1__["__values"])(files), files_1_1 = files_1.next(); !files_1_1.done; files_1_1 = files_1.next()) {
-                            var file = files_1_1.value;
-                            _loop_3(file);
-                        }
-                    }
-                    catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                    finally {
-                        try {
-                            if (files_1_1 && !files_1_1.done && (_a = files_1.return)) _a.call(files_1);
-                        }
-                        finally { if (e_1) throw e_1.error; }
-                    }
-                }))];
-        });
-    });
+                        function (blob) {
+                            /** @type {?} */
+                            var resizedFile = new File([blob], file.name, { type: file.type });
+                            resizedFiles_1.push(resizedFile);
+                            if (files.length === resizedFiles_1.length) {
+                                resolve(resizedFiles_1);
+                            }
+                        }), file.type, quality / 100);
+                    });
+                    image.src = event.target.result;
+                });
+                reader.onerror = (/**
+                 * @param {?} error
+                 * @return {?}
+                 */
+                function (error) { return reject(error); });
+                reader.readAsDataURL(file);
+            };
+            try {
+                for (var files_1 = Object(tslib__WEBPACK_IMPORTED_MODULE_1__["__values"])(files), files_1_1 = files_1.next(); !files_1_1.done; files_1_1 = files_1.next()) {
+                    var file = files_1_1.value;
+                    _loop_3(file);
+                }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (files_1_1 && !files_1_1.done && (_a = files_1.return)) _a.call(files_1);
+                }
+                finally { if (e_1) throw e_1.error; }
+            }
+        }));
+    }
+    else {
+        // No files selected
+        return Promise.resolve(files);
+    }
 })
 /**
  * REMOVE_RESULT_PANEL
