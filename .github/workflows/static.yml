@@ -1,0 +1,55 @@
+# name: Build and Deploy
+# on:
+#   push:
+#     branches:
+#       - master
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@v3
+#     - name: All things angular
+#       uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.4.0 ## replace by latest version without it you will see Expected format {org}/{repo}[/path]@ref. Actual 'AhsanAyaz/angular-deploy-gh-pages-actions',Input string was not in a correct format.
+#       with:
+#         github_access_token: ${{ secrets.ACCESS_TOKEN }} # https://github.com/settings/tokens see the Configuration section for how you can create secrets
+#         build_configuration: production # The build environment for the app. please look configurations in your angular.json
+#         base_href: /ngx-scanner-qrcode/   # make sure this corresponds to https://<your_username>.github.io/<base_href>/
+#         deploy_branch: gh-pages # The branch the action should deploy to.
+#         angular_dist_build_folder: dist/ngx-scanner-qrcode # The folder where your project is supposed to be after running ng build by the action.
+# permissions:
+#   contents: write # Allow write permission to GITHUB_TOKEN to commit to deploy branch. 
+
+
+name: Publish to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE
+    
+    - uses: actions/setup-node@v3 # Install Node and npm on Ubuntu
+      with:
+        node-version: 18.16.0
+      
+    - name: Angular CLI
+      run: npm i -g @angular/cli@16 # Install angular cli v6 global
+ 
+    - name: Install dependencies
+      run: npm i -f # Install all package with --force
+      
+    - name: Build
+      # run: ng build --configuration production --aot --base-href="/ngx-scanner-qrcode/" # Build project with base href
+      run: ng build --base-href="/ngx-scanner-qrcode/" # Build project with base href
+    
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3 # Deploy copy files from dist/ngx-scanner-qrcode to gh-pages
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: dist/ngx-scanner-qrcode
