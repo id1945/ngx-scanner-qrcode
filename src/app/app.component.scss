@@ -1,0 +1,26 @@
+h1,
+h5,
+p {
+  font-weight: 600;
+  word-break: break-all;
+  font-family: 'Courier New', Courier, monospace;
+}
+div {
+  text-align: center;
+  background: #fdfdfd;
+  
+  button {
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    margin: 4px;
+    &disabled {
+      cursor: no-drop;
+    }
+  }
+
+  .data {
+    background: antiquewhite;
+    border-radius: 5px;
+  }
+}

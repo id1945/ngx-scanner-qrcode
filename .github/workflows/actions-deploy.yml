@@ -1,0 +1,33 @@
+name: Publish to GitHub Pages
+
+on:
+  push:
+    branches:
+      - angular-6
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE
+    
+    - uses: actions/setup-node@v3 # Install Node and npm on Ubuntu
+      with:
+        node-version: 8.11.1
+      
+    - name: Angular CLI
+      run: npm i -g @angular/cli@6 # Install angular cli v6 global
+ 
+    - name: Install dependencies
+      run: npm i -f # Install all package with --force
+      
+    - name: Build
+      run: ng build --base-href="/ngx-scanner-qrcode/" # Build project with base href
+      # run: ng build --base-href="/ngx-scanner-qrcode/" # Build project with base href
+    
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3 # Deploy copy files from dist/ngx-scanner-qrcode to gh-pages
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: dist/ngx-scanner-qrcode
