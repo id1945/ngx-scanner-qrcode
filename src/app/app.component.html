@@ -62,12 +62,12 @@
   <button (click)="applyConstraints()" class="btn btn-success">App</button>
 
   <div class="d-flex justify-content-center my-2">
-    <div class="col-xs-12 col-md-6 col-lg-4 col-xl-3 m-1">
+    <div class="col-xs-12 col-md-6 col-lg-4 col-xl-2 m-1">
       <select #select3 (change)="percentage = +select3.value" class="form-select form-select-md">
         <option *ngFor="let item of [10,20,30,40,50,60,70,80,90,100]" [value]="item" [selected]="item == percentage">Scale {{item}}%</option>
       </select>
     </div>
-    <div class="col-xs-12 col-md-6 col-lg-4 col-xl-3 m-1">
+    <div class="col-xs-12 col-md-6 col-lg-4 col-xl-2 m-1">
       <select #select4 (change)="quality = +select4.value" class="form-select form-select-md">
         <option *ngFor="let item of [10,20,30,40,50,60,70,80,90,100]" [value]="item" [selected]="item == quality">Quality {{item}}%</option>
       </select>
