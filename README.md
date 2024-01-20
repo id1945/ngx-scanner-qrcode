@@ -42,7 +42,8 @@ Add wanted package to NgModule imports:
 ```typescript
 import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
 
-LOAD_WASM().subscribe((res: any) => console.log('LOAD_WASM', res));
+// Necessary to solve the problem of losing internet connection
+LOAD_WASM().subscribe();
 
 @NgModule({
     imports: [
@@ -59,9 +60,10 @@ angular.json
     "build": {
       "options": {
         "assets": [
+          /* Necessary to solve the problem of losing internet connection */
           {
             "glob": "**/*",
-            "input": "node_modules/ngx-scanner-qrcode/wasm/",
+            "input": "node_modules/ngx-scanner-qrcode/wasm/", 
             "output": "./assets/wasm/"
           }
         ]
@@ -374,12 +376,12 @@ interface ScannerQRCodeSelectedFiles {
     <th colspan="2">Support versions</th>
   </tr>
   <tr>
-    <td>Angular 16</td>
-    <td>1.6.2</td>
+    <td>Angular 16+</td>
+    <td>1.6.8</td>
   </tr>
   <tr>
-    <td>Angular 6</td>
-    <td>1.6.1</td>
+    <td>Angular 6+</td>
+    <td>1.6.6</td>
   </tr>
 </table>
 
@@ -403,14 +405,18 @@ interface ScannerQRCodeSelectedFiles {
   </tr>
 </table>
 
-#### If you want donate for me!
+#### To make this library more complete, please donate to me if you can!
 
 <table>
   <tr>
     <th>Bitcoin</th>
+    <th>Paypal</th>
+    <th>MbBank</th>
   </tr>
   <tr>
     <td><img src="https://raw.githubusercontent.com/id1945/id1945/master/donate-bitcoin.png" width="182px"></td>
+    <td><img src="https://raw.githubusercontent.com/id1945/id1945/master/donate-paypal.png" width="182px"></td>
+    <td><img src="https://raw.githubusercontent.com/id1945/id1945/master/donate-mbbank.png" width="182px"></td>
   </tr>
 </table>
 
