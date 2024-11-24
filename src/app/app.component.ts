@@ -15,12 +15,12 @@ export class AppComponent implements AfterViewInit {
         width: window.innerWidth
       },
     },
-    symbolType: [
-      ScannerQRCodeSymbolType.ScannerQRCode_QRCODE,
-      ScannerQRCodeSymbolType.ScannerQRCode_I25,
-      ScannerQRCodeSymbolType.ScannerQRCode_DATABAR,
-      ScannerQRCodeSymbolType.ScannerQRCode_CODE39,
-    ],
+    // symbolType: [
+    //   ScannerQRCodeSymbolType.ScannerQRCode_QRCODE,
+    //   ScannerQRCodeSymbolType.ScannerQRCode_I25,
+    //   ScannerQRCodeSymbolType.ScannerQRCode_DATABAR,
+    //   ScannerQRCodeSymbolType.ScannerQRCode_CODE39,
+    // ],
     // isMasked: false,
     // unScan: true,
     // canvasStyles: [

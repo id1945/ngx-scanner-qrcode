@@ -45,8 +45,8 @@ jobs:
       run: npm i -f # Install all package with --force
       
     - name: Build
-      # run: ng build --configuration production --aot --base-href="/ngx-scanner-qrcode/" # Build project with base href
-      run: ng build --base-href="/ngx-scanner-qrcode/" # Build project with base href
+      run: ng build --configuration production --aot --base-href="/ngx-scanner-qrcode/" # Build project with base href
+      # run: ng build --base-href="/ngx-scanner-qrcode/" # Build project with base href
     
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3 # Deploy copy files from dist/ngx-scanner-qrcode to gh-pages
