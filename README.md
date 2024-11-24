@@ -43,7 +43,7 @@ Add wanted package to NgModule imports:
 import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
 
 // Necessary to solve the problem of losing internet connection
-LOAD_WASM().subscribe();
+LOAD_WASM('assets/wasm/ngx-scanner-qrcode.wasm').subscribe();
 
 @NgModule({
     imports: [
@@ -195,16 +195,20 @@ export class AppComponent {
 
 #### Input
 
-|   Field         |   Description                 |     Type                    |     Default                                                                                                                                 |
-|   ---           |       ---                     |     ---                     |       ---                                                                                                                                   |
-| [src]           | image url                     | string                      | -                                                                                                                                           |
-| [fps]           | fps/ms                        | number                      | 30                                                                                                                                          |
-| [vibrate]       | vibrate for mobile            | number                      | 300                                                                                                                                         |
-| [decode]        | decode value                  | string                      | utf-8                                                                                                                                       |
-| [isBeep]        | beep                          | boolean                     | true                                                                                                                                        |
-| [constraints]   | setting video                 | MediaStreamConstraints      | ``` {audio:false,video:true} ```                                                                                                            |
-| [canvasStyles]  | setting canvas                | CanvasRenderingContext2D[]  | ``` [{ lineWidth: 1, strokeStyle: 'green', fillStyle: '#55f02880' },{ font: '15px serif', strokeStyle: '#fff0', fillStyle: '#ff0000' }] ``` |
-| [config]        | config                        | ScannerQRCodeConfig         | ``` {src:..,fps..,vibrate..,decode:..,isBeep:..,config:..,constraints:..,canvasStyles:..} ```                                               |
+|   Field         |   Description                 |     Type                    |     Default     |
+|   ---           |       ---                     |     ---                     |       ---       |
+| [src]           | image url                     | string                      |       -         |
+| [fps]           | fps/ms                        | number                      |       30        |
+| [vibrate]       | vibrate for mobile            | number                      |       300       |
+| [decode]        | decode value                  | string                      |       utf-8     |
+| [isBeep]        | beep                          | boolean                     |       true      |
+| [isMasked]      | masked                        | boolean                     |       true      |
+| [unScan]        | scan                          | boolean                     |       false     |
+| [loadWasmUrl]   | wasm local url                | string                      |       blank     |
+| [symbolType]    | type                          | ScannerQRCodeSymbolType[]   | [ScannerQRCode_NONE]  |
+| [constraints]   | setting video                 | MediaStreamConstraints      | ``` {audio:false,video:true} ```  |
+| [canvasStyles]  | setting canvas                | CanvasRenderingContext2D[]  | ``` [{ lineWidth: 1, strokeStyle: 'green', fillStyle: '#55f02880' },{ font: '15px serif', strokeStyle: '#fff0', fillStyle: '#ff0000' }] ``` | 
+| [config]        | config                        | ScannerQRCodeConfig         | ``` {src:..,fps..,vibrate..,decode:..,isBeep:..,config:..,constraints:..,canvasStyles:..} ``` |
 
 #### Ouput
 
@@ -248,14 +252,18 @@ export class AppComponent {
 <details><summary><b>ScannerQRCodeConfig</b></summary>
 
 ```typescript
-interface ScannerQRCodeConfig {
+export interface ScannerQRCodeConfig {
   src?: string;
   fps?: number;
-  vibrate?: number; /** support mobile */
+  vibrate?: number; /* support mobile */
   decode?: string;
+  unScan?: boolean;
   isBeep?: boolean;
+  isMasked?: boolean;
+  loadWasmUrl?: string; /* eg. assets/wasm/ngx-scanner-qrcode.wasm */
+  symbolType?: ScannerQRCodeSymbolType[];
   constraints?: MediaStreamConstraints;
-  canvasStyles?: CanvasRenderingContext2D[];
+  canvasStyles?: CanvasRenderingContext2D[] | any[];
 }
 ```
 </details>
@@ -377,11 +385,11 @@ interface ScannerQRCodeSelectedFiles {
   </tr>
   <tr>
     <td>Angular 16+</td>
-    <td>1.6.8</td>
+    <td>1.7.3</td>
   </tr>
   <tr>
     <td>Angular 6+</td>
-    <td>1.6.6</td>
+    <td>1.7.2</td>
   </tr>
 </table>
 
