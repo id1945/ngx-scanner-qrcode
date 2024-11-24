@@ -19,7 +19,23 @@ interface ZBarInstance extends Record<string, WebAssembly.ExportValue | ArrayBuf
     _Image_get_symbols(image: number): number;
 }
 
-declare const getInstance: () => Promise<ZBarInstance>;
+/**
+ * Arguments used for building a `ZBarInstance`
+ */
+type ZBarModuleArgs = {
+    locateFile?: (filename: string, directory: string) => string;
+};
+/**
+ * Causes a new `ZBarInstance` built with the specified arguments
+ * to be returned by subsequent `getInstance()` calls.
+ */
+declare function setModuleArgs(args?: ZBarModuleArgs): void;
+/**
+ * Returns a `ZBarInstance` built with the arguments set by `setModuleArgs()`,
+ * or built without any arguments.
+ * Successive calls return the same instance until `setModuleArgs()` is called.
+ */
+declare function getInstance(): Promise<ZBarInstance>;
 
 declare enum ZBarSymbolType {
     ZBAR_NONE = 0,
@@ -135,4 +151,4 @@ declare const scanGrayBuffer: (buffer: ArrayBuffer, width: number, height: numbe
 declare const scanRGBABuffer: (buffer: ArrayBuffer, width: number, height: number, scanner?: ZBarScanner) => Promise<Array<ZBarSymbol>>;
 declare const scanImageData: (image: ImageData, scanner?: ZBarScanner) => Promise<Array<ZBarSymbol>>;
 
-export { type Point, ZBarConfigType, ZBarImage, ZBarOrientation, ZBarScanner, ZBarSymbol, ZBarSymbolType, getDefaultScanner, getInstance, scanGrayBuffer, scanImageData, scanRGBABuffer };
+export { type Point, ZBarConfigType, ZBarImage, type ZBarModuleArgs, ZBarOrientation, ZBarScanner, ZBarSymbol, ZBarSymbolType, getDefaultScanner, getInstance, scanGrayBuffer, scanImageData, scanRGBABuffer, setModuleArgs };
