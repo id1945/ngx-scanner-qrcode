@@ -6,7 +6,7 @@ import { SafePipe } from './safe.pipe';
 import { FormsModule } from '@angular/forms';
 import { LOAD_WASM, NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 
-LOAD_WASM().subscribe((res: any) => {
+LOAD_WASM('assets/wasm/ngx-scanner-qrcode.wasm').subscribe((res: any) => {
   console.log('LOAD_WASM',res)
 })
 

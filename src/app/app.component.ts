@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { ScannerQRCodeConfig, NgxScannerQrcodeService, ScannerQRCodeSelectedFiles, ScannerQRCodeResult, NgxScannerQrcodeComponent } from 'ngx-scanner-qrcode';
+import { ScannerQRCodeConfig, NgxScannerQrcodeService, ScannerQRCodeSelectedFiles, ScannerQRCodeResult, NgxScannerQrcodeComponent, ScannerQRCodeSymbolType } from 'ngx-scanner-qrcode';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +15,14 @@ export class AppComponent implements AfterViewInit {
         width: window.innerWidth
       },
     },
+    symbolType: [
+      ScannerQRCodeSymbolType.ScannerQRCode_QRCODE,
+      ScannerQRCodeSymbolType.ScannerQRCode_I25,
+      ScannerQRCodeSymbolType.ScannerQRCode_DATABAR,
+      ScannerQRCodeSymbolType.ScannerQRCode_CODE39,
+    ],
+    // isMasked: false,
+    // unScan: true,
     // canvasStyles: [
     //   {
     //     lineWidth: 1,
